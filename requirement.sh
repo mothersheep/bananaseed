@@ -47,3 +47,4 @@ pip install weasyprint
 
 pip install sec-api
 pip install xmltojson
+pip install pdftotext
