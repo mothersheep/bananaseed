@@ -48,3 +48,6 @@ pip install weasyprint
 pip install sec-api
 pip install xmltojson
 pip install pdftotext
+pip install tabula
+pip install pypdf
+pip install moomoo-api
