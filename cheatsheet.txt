@@ -1,0 +1,8 @@
+termux-change-repo
+
+
+tar -xvzf <path>
+
+106279536
+
+127.0.0.1:1
