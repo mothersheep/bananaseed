@@ -1,8 +1,20 @@
-termux-change-repo
 
+ttermux-change-repo
 
+7z x PACKAGE.7z
 tar -xvzf <path>
 
 106279536
 
 127.0.0.1:1
+
+pacman --init
+pacman -Ql <app>
+file OpenD
+uname -m
+lscpu
+
+
+xrandr --fb 1050x1600
+xrandr --fb 800x1600
+
