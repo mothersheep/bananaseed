@@ -1,8 +1,8 @@
 
 ttermux-change-repo
 
-7z x PACKAGE.7z
-tar -xvzf <path>
+7z x opend2.7z
+tar -xvzf opend3.tar.gz
 
 106279536
 
@@ -13,8 +13,27 @@ pacman -Ql <app>
 file OpenD
 uname -m
 lscpu
-
+ldd your_executable_name
 
 xrandr --fb 1050x1600
 xrandr --fb 800x1600
 
+tigervncserver \
+    -geometry 800x1600 \
+    -xstartup /usr/bin/xfce4-session \
+    -listen tcp :1 
+vncpasswd
+
+mv old_file.txt new_file.txt
+file your_executable_name
+
+/lib64/ld-linux-x86-64.so.2 --library-path /usr/x86_64-linux-gnu  ~/Desktop/opend/a/OpenD
+
+/usr/x86_64-linux-gnu/lib64/ld-linux-x86-64.so.2
+/usr/x86_64-linux-gnu/lib64/ld-linux-x86-64.so.2 ~/Desktop/opend/a/OpenD
+
+patchelf --set-interpreter /usr/x86_64-linux-gnu/lib64/ld-linux-x86-64.so.2 ~/Desktop/opend/a/OpenD
+cd users/root/Desktop/opend2/a/OpenD.exe
+
+git config --global user.name "A54" 
+git config --global user.email ""
