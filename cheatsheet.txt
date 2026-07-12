@@ -32,8 +32,34 @@ file your_executable_name
 /usr/x86_64-linux-gnu/lib64/ld-linux-x86-64.so.2
 /usr/x86_64-linux-gnu/lib64/ld-linux-x86-64.so.2 ~/Desktop/opend/a/OpenD
 
+
 patchelf --set-interpreter /usr/x86_64-linux-gnu/lib64/ld-linux-x86-64.so.2 ~/Desktop/opend/a/OpenD
 cd users/root/Desktop/opend2/a/OpenD.exe
 
 git config --global user.name "A54" 
 git config --global user.email ""
+
+qemu-img create -f qcow2 alpine-disk.qcow2 8G
+qemu-system-x86_64  -M q35   -smp 2  -m 4G  -boot d  -cdrom alpine.iso  -drive file=alpine-disk.qcow2,if=virtio  -vga virtio  -display sdl,gl=on -device virtio-tablet-pci
+qemu-system-x86_64 -m 2G -drive file=alpine-disk.qcow2,format=qcow2  -device virtio-tablet-pci -virtfs local,path=/mnt/shared,security_model=mapped,mount_tag=share_tag
+
+qemu-system-x86_64 -m 2G -drive file=alpine-disk.qcow2,format=qcow2  -device virtio-tablet-pci -net user,smb=/mnt/shared  -net nic,model=virtio 
+
+apt install samba
+nano /etc/samba/smb.conf
+[sambashare] 
+	comment = Samba on Ubuntu 
+	path = /home/username/sambashare 
+	read only = no 
+	browsable = yes
+service smbd restart
+ufw allow samba
+apt install ufw
+smbpasswd -a username
+
+apk add cifs-utils
+mkdir -p /mnt/shared
+mount -t cifs //10.0.2.4/qemu /mnt/shared -o guest
+
+
+
