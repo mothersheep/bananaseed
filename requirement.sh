@@ -51,3 +51,4 @@ pip install pdftotext
 pip install tabula
 pip install pypdf
 pip install moomoo-api
+pip install alpaca-py
