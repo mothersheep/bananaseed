@@ -42,10 +42,11 @@ git config --global user.email ""
 qemu-img create -f qcow2 alpine-disk.qcow2 8G
 qemu-system-x86_64  -M q35   -smp 2  -m 4G  -boot d  -cdrom alpine.iso  -drive file=alpine-disk.qcow2,if=virtio  -vga virtio  -display sdl,gl=on -device virtio-tablet-pci
 qemu-system-x86_64 -m 2G -drive file=alpine-disk.qcow2,format=qcow2,if=virtio  -device virtio-tablet-pci -virtfs local,path=/mnt/shared,security_model=mapped,mount_tag=share_tag
+qemu-system-x86_64 -m 4G -drive file=alpine-disk.qcow2,format=qcow2,if=virtio  -device virtio-tablet-pci -virtfs local,path=/mnt/shared,security_model=mapped,mount_tag=share_tag -net user,hostfwd=tcp:127.0.0.3:2222-10.0.2.5:22
 
-qemu-system-x86_64 -m 2G -drive file=alpine-disk.qcow2,format=qcow2,if=virtio  -device virtio-tablet-pci -virtfs local,path=/mnt/shared,security_model=mapped,mount_tag=share_tag -machine accel=kvm -cpu host -mem-prealloc=off
+qemu-system-x86_64 	-m 2G -drive file=alpine-disk.qcow2,format=qcow2  -device virtio-tablet-pci -net user,smb=/mnt/shared  -net nic,model=virtio 
 
-qemu-system-x86_64 -m 2G -drive file=alpine-disk.qcow2,format=qcow2  -device virtio-tablet-pci -net user,smb=/mnt/shared  -net nic,model=virtio 
+adduser kohome wheel
 
 apt install samba
 nano /etc/samba/smb.conf
@@ -58,10 +59,54 @@ service smbd restart
 apt install ufw
 ufw allow samba
 smbpasswd -a username
+chmod 666 /etc/samba/smb.conf 
+vi /etc/ufw/applications.d/samba
+[Samba]
+title=LanManager-like file and printer server for Unix
+description=The Samba software suite is a collection of programs that implements the SMB/CIF$
+ports=137,138/udp|139,445/tcp
+[OpenSSH]
+title=OpenSSH
+description=OpenSSH
+ports=22/tcp
+ufw enable
+
+rc-service samba restart
+ufw reload
+ufw status verbose
+ufw enable
+
+#on powershell
+Test-NetConnection -ComputerName 127.0.0.3 -Port 445
 
 apk add cifs-utils
 mkdir -p /mnt/shared
+chmod 0777 /mnt/shared
 mount -t cifs //10.0.2.4/qemu /mnt/shared -o guest
 
+apk add openssh
+rc-update add sshd
+rc-status
+rc-service sshd start
+rc-service sshd restart
+rc-service sshd status
+vi /etc/ssh/sshd_config
+AddUsers root kohome
+PermitRootLogin  yes
+vi filename.txt
+rc-service sshd restart
 
+netstat -lnp
+ip a
+ifconfig
+ip -br a
+hostname -i
+whoami
+ssh -p 2222 root@127.0.0.3
+ssh -p 2222 root@127.0.0.3 -vvv
+rm /etc/ssh/sshd_config.d/50-cloud-init.conf
 
+vi /etc/apk/repositories
+Uncomment the line ending in /community
+:q!
+:x
