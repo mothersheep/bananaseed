@@ -93,6 +93,9 @@ rc-service sshd status
 vi /etc/ssh/sshd_config
 AddUsers root kohome
 PermitRootLogin  yes
+PubkeyAuthentication yes
+PasswordAuthentication yes
+
 vi filename.txt
 rc-service sshd restart
 
@@ -106,6 +109,7 @@ ssh -p 2222 root@127.0.0.3
 ssh -p 2222 root@127.0.0.3 -vvv
 rm /etc/ssh/sshd_config.d/50-cloud-init.conf
 
+setup-apkrepos -c
 vi /etc/apk/repositories
 Uncomment the line ending in /community
 :q!
