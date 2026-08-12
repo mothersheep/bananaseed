@@ -1,5 +1,15 @@
+vim 123
+udroid login jammy:xfce4
 
-ttermux-change-repo
+nano 123
+vncserver -kill :1
+tigervncserver \
+    -geometry 800x1600 \
+    -xstartup /usr/bin/xfce4-session \
+    -listen tcp :1 
+
+
+termux-change-repo
 
 7z x opend2.7z
 tar -xvzf opend3.tar.gz
