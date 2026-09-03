@@ -52,5 +52,6 @@ pip install tabula
 pip install pypdf
 pip install moomoo-api
 pip install alpaca-py
+pip install yfinance
 
 pip install python-telegram-bot
