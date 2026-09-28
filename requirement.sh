@@ -55,3 +55,7 @@ pip install alpaca-py
 pip install yfinance
 
 pip install python-telegram-bot
+pip install torchinfo
+pip install sqlite-utils
+pip install polygon-api-client
+pip install pyodbc
